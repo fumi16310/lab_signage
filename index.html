@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jikoku.js"></script>
+<!---<script type="text/javascript" src="js/main.js"></script>--->
+<link rel="stylesheet" type="text/css" href="css/design.css" />
+  <script type="text/javascript">
+    $(function(){
+    function CameraRefresh(){
+      $("div#room").load("ob.html");
+    }
+        $("div#room").load("ob.html");
+        myTim = setInterval(CameraRefresh,3000);
+      $("span#list0").click(function(){
+      	$("div#main").css("background-color","gray");
+   	$.ajax({
+       	 type: "GET",
+       	 url: "main.xml",
+       	 dataType: "xml",
+       	 success: xmlParser
+    	});
+     });
+function xmlParser(xml) {
+    $(xml).find("Contents").each(function () {
+
+        $("#main").replaceWith('<div id="main"><em>' + $(this).find("Title").text() + '</em><br />Published ' + $(this).find("Date").text() + '<br />' + $(this).find("Text").text() + '<br /></div>');
+    });
+}
+
+      $("span#list1").click(function(){
+        $("div#main").css("background-color","lime");
+        var jikokuhtml = "次のバスは<em>"+getJikoku(0)+"</em>です！<br />";
+        jikokuhtml = jikokuhtml+"次のバスは<em>"+getJikoku(1)+"</em>です！<br />";
+        jikokuhtml = jikokuhtml+"次のバスは<em>"+getJikoku(2)+"</em>です！<br />";
+        $("div#main").html(jikokuhtml);
+      });
+      
+      $("span#list2").click(function(){
+      	$("div#main").css("background-color","orange");
+      	$("div#main").load("login.html");
+      });
+      $("span#list3").click(function(){
+      	$("div#main").css("background-color","#cf0404");
+      	$("div#main").load("test.html");
+      });
+      $("span#list4").click(function(){
+      	$("div#main").load("http://masui.sfc.keio.ac.jp/ob/");
+      });
+
+           
+    });  
+  </script>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Signage</title>
+</head>
+
+<body>
+<div id="logo">
+Masui Lab Digital Sinage
+</div>
+<br />
+<div id="room">
+</div>
+<div id="structure"><span id="list0">NEWS</span><span id="list1">次のバスの時刻</span><span id="list2">login</span><span id="list3">Say</span><span id="list4">OB降臨</span></div>
+
+<div id="main">
+<em>今日のニュース</em><br />
+なんにもないよ<br />
+うんないね<br />
+・・・・・<br />
+アニメが最終回間近！<br />
+</div>
+</body>
+
+</html>
